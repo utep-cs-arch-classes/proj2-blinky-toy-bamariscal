@@ -9,23 +9,34 @@ char toggle_red()		/* always toggle! */
   switch (state) {
   case 0:
     red_on = 1;
-    state = 1;
+    state = 1; 
     break;
   case 1:
     red_on = 0;
+    green_on = 0;
     state = 0;
     break;
   }
-  return 1;			/* always changes an led */
+    
+  return 1;			/* always changes, an led */
 }
 
 char toggle_green()	/* only toggle green if red is on!  */
 {
   char changed = 0;
-  if (red_on) {
-    green_on ^= 1;
+  if (green_on) {
+    red_on ^= 1;
     changed = 1;
   }
+  return changed;
+}
+
+char on_both(){
+  char changed = 0;
+  red_on = 1;
+  green_on = 1;
+  changed =1;
+ 
   return changed;
 }
 
@@ -33,16 +44,23 @@ char toggle_green()	/* only toggle green if red is on!  */
 void state_advance()		/* alternate between toggling red & green */
 {
   char changed = 0;  
-
-  static enum {R=0, G=1} color = G;
+ 
+  static enum {R=0, G=1,B =2} color = B;
   switch (color) {
-  case R: changed = toggle_red(); color = G; break;
-  case G: changed = toggle_green(); color = R; break;
-  }
+  case R:
+    changed = toggle_red();
+    color = B;
+    break;
+  case B:
+    changed = on_both();
+    color = G;
+    break;
+  case G:
+    changed = toggle_green();
+    color = R;
+    break;
+     }
 
   led_changed = changed;
   led_update();
 }
-
-
-
