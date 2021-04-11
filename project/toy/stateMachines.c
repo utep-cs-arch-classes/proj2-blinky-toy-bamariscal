@@ -1,6 +1,40 @@
 #include <msp430.h>
 #include "stateMachines.h"
 #include "led.h"
+#include "switches.h"
+
+static enum {off =0, light = 1, dim =2} ledStyle;
+static char count = 0;
+
+void clock_one(){
+  ledStyle = (ledStyle +1)%4;
+}
+
+void clock_two(){
+  count = (count+1)&4;
+}
+
+void update_lights(){
+  char red_two;
+
+  switch (ledStyle){
+  case off:
+    red_two = 0;
+    break;
+  case light:
+    red_two = 1;
+    break;
+  case dim:
+    red_two = (count <1);
+    break;
+  }
+
+  if(red_on != red_two){
+    red_on = red_two;
+    led_changed =1;
+  }
+}
+  
 
 char toggle_red()		/* always toggle! */
 {
