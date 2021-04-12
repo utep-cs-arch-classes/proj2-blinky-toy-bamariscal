@@ -1,6 +1,11 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "buzzer.h"
+#define MIN 150
+#define MAX 700
+
+static unsigned int length = 2000;
+static unsigned int rate = 300;
 
 void buzzer_init()
 {
@@ -16,6 +21,7 @@ void buzzer_init()
     P2SEL &= ~BIT7; 
     P2SEL |= BIT6;
     P2DIR = BIT6;		/* enable output to speaker (P2.6) */
+    sound();
 }
 
 void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k results in 2kHz tone) */
@@ -24,6 +30,14 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
   CCR1 = cycles >> 1;		/* one half cycle */
 }
 
+void sound(){
+  //buzzer_set_period(length);
+   
+}
+
+    
+  
+  
 
     
     

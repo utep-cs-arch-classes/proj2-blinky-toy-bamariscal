@@ -7,11 +7,11 @@ static enum {off =0, light = 1, dim =2} ledStyle;
 static char count = 0;
 
 void clock_one(){
-  ledStyle = (ledStyle +1)%4;
+  ledStyle = (ledStyle +1)%3;
 }
 
 void clock_two(){
-  count = (count+1)&4;
+  count = (count+1)&3;
 }
 
 void update_lights(){
